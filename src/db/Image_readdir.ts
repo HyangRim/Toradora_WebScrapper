@@ -1,15 +1,13 @@
-const testFolder = '../kushieda_minori/';
-const image_fs = require('fs');
+const fs = require('fs');
+const testFolder = '../../kushieda_minori/';
 
-export async function Img_list(filePath){
-    await image_fs.readdir(filePath, function(err, flist){
+export async function Img_list(filePath : string){
+    const data = await fs.readdir(filePath, function(err, flist){
         if(err){
             console.log(err);
             return;
         }
-        //console.log(flist);
-    })
-    //console.log(test);
+        console.log(flist);
+    });
+    return data;
 }
-
-//console.log(await Img_list(testFolder).then());

@@ -1,27 +1,16 @@
-const Safebooru = require('@ibaraki-douji/safebooru');
-const axios = require('axios').default
-const fs = require("fs");
+const DirImage = require("./db/Image_readdir");
+const express = require("express");
+const cors = require("cors");
+const router = express.Router();
 
+const app = express();
+app.use(cors());
 
-async function getImage(keyword : string){
-   let urls = await Safebooru.getPicsFromAllPages(keyword);
-   console.log(urls)
-   let PicNumber = 0;
-   //Setting
+const testFolder = '../kitamura_yuusaku/';
 
-   let dirPath = "./" + keyword;
-   const isExists = fs.existsSync(dirPath);
-   if(!isExists){
-      fs.mkdirSync(dirPath, {recursive : true});
-   }
-   for(let url of urls){
-      //해야할 것. name으로 검색한 다음 없을 경우에 가져오기. 
-      PicNumber += 1;
-      let imageURL = await Safebooru.getImageURLFromPic(url);
-      let name = imageURL.split("/")[imageURL.split("/").length-1].split("?")[0];
-      fs.writeFileSync("./"+keyword+"/"+name, (await Safebooru.downloadFullSizeURL(imageURL)).buffer);
-      console.log(PicNumber + " Picture : " + name + " Download Finish!");
-   }
+async function test(tt: string){
+    let files = await DirImage.Img_list(tt);
+    console.log(files);
 }
 
-getImage("aisaka_taiga");
+test(testFolder);
