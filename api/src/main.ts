@@ -16,7 +16,7 @@ app.listen(port, () => {
     console.log(`Server is on port ${port}.`);
 })
 
-
+app.use(express.static(`${__dirname}/main_page`));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -42,6 +42,15 @@ const Ryuuji_Collection =mongoose.model(Collections_keywords[3], Custom_Schema);
 const Yuusaku_Collection = mongoose.model(Collections_keywords[4], Custom_Schema);
 
 //Collection 접속하기. 
+
+app.get('./', (req,res)=>{
+    res.sendFile(`${__dirname}/index.html`, (err)=>{
+        if(err){
+            console.log(err);
+            res.end(err.message);
+        }
+    });
+});
 
 
 app.get('/aisaka_taiga/:Number', async (req, res)=>{
